@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RecetasModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id_Categoria" />
+    </Key>
+    <Property Name="Id_Categoria" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Favorite">
+    <Key>
+      <PropertyRef Name="Id_Fav" />
+    </Key>
+    <Property Name="Id_Fav" Type="Int32" Nullable="false" />
+    <Property Name="Id_Recipe" Type="Int32" Nullable="false" />
+    <Property Name="Id_User" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Favorites_User" FromRole="Favorites" ToRole="User" />
+    <NavigationProperty Name="Recipess" />
+  </EntityType>
+  <EntityType Name="Ingredientes">
+    <Key>
+      <PropertyRef Name="Id_Ingredients" />
+    </Key>
+    <Property Name="Id_Ingredients" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Medida" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Calories" Type="Double" Nullable="false" />
+    <Property Name="Carbs" Type="Double" Nullable="false" />
+    <Property Name="Fat" Type="Double" Nullable="false" />
+    <Property Name="Protein" Type="Double" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Uploaded">
+    <Key>
+      <PropertyRef Name="Id_Uprecipe" />
+    </Key>
+    <Property Name="Id_Uprecipe" Type="Int32" Nullable="false" />
+    <Property Name="Id_user" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Uploaded_User" FromRole="Uploaded" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id_user" />
+    </Key>
+    <Property Name="Id_user" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Apellido" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Favorites" Type="Int32" />
+    <Property Name="Id_Uprecipes" Type="Int32" />
+    <NavigationProperty Name="Favorites" Relationship="Self.FK_Favorites_User" FromRole="User" ToRole="Favorites" />
+    <NavigationProperty Name="Uploadeds" Relationship="Self.FK_Uploaded_User" FromRole="User" ToRole="Uploaded" />
+  </EntityType>
+  <EntityType Name="Recipess">
+    <Key>
+      <PropertyRef Name="Id_recipe" />
+      <PropertyRef Name="Nombre" />
+      <PropertyRef Name="Descripcion" />
+      <PropertyRef Name="Id_Categoria" />
+      <PropertyRef Name="Prep" />
+      <PropertyRef Name="Id_Ingredientes" />
+    </Key>
+    <Property Name="Id_recipe" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Categoria" Type="Int32" Nullable="false" />
+    <Property Name="Preptime" Type="Time" Precision="7" />
+    <Property Name="Cooktime" Type="Time" Precision="7" />
+    <Property Name="ReadyIn" Type="Time" Precision="7" />
+    <Property Name="Prep" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Id_Ingredientes" Type="Int32" Nullable="false" />
+    <Property Name="Imagen" Type="Binary" MaxLength="Max" FixedLength="false" />
+    <Property Name="Calories" Type="Double" />
+    <Property Name="Fat" Type="Double" />
+    <Property Name="Carbs" Type="Double" />
+    <Property Name="Protein" Type="Double" />
+    <NavigationProperty Name="Category" />
+    <NavigationProperty Name="Ingretientes" />
+  </EntityType>
+  <Association Name="FK_Favorites_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Favorites" Type="Self.Favorite" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Favorites">
+        <PropertyRef Name="Id_User" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Uploaded_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Uploaded" Type="Self.Uploaded" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Uploaded">
+        <PropertyRef Name="Id_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="RecetasEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categories" EntityType="Self.Category" />
+    <EntitySet Name="Favorites" EntityType="Self.Favorite" />
+    <EntitySet Name="Ingredientes1" EntityType="RecetasModel.Ingredientes" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Uploadeds" EntityType="Self.Uploaded" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <EntitySet Name="Recipesses" EntityType="Self.Recipess" />
+    <AssociationSet Name="FK_Favorites_User" Association="Self.FK_Favorites_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Favorites" EntitySet="Favorites" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Uploaded_User" Association="Self.FK_Uploaded_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Uploaded" EntitySet="Uploadeds" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
