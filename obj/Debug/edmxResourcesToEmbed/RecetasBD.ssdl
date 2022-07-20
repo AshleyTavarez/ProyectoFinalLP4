@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RecetasModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id_Categoria" />
+    </Key>
+    <Property Name="Id_Categoria" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Favorites">
+    <Key>
+      <PropertyRef Name="Id_Fav" />
+    </Key>
+    <Property Name="Id_Fav" Type="int" Nullable="false" />
+    <Property Name="Id_Recipe" Type="int" Nullable="false" />
+    <Property Name="Id_User" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ingredientes">
+    <Key>
+      <PropertyRef Name="Id_Ingredients" />
+    </Key>
+    <Property Name="Id_Ingredients" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Medida" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Calories" Type="float" Nullable="false" />
+    <Property Name="Carbs" Type="float" Nullable="false" />
+    <Property Name="Fat" Type="float" Nullable="false" />
+    <Property Name="Protein" Type="float" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'Recetas.dbo.Recipess' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="Recipess">
+    <Key>
+      <PropertyRef Name="Id_recipe" />
+      <PropertyRef Name="Nombre" />
+      <PropertyRef Name="Descripcion" />
+      <PropertyRef Name="Id_Categoria" />
+      <PropertyRef Name="Prep" />
+      <PropertyRef Name="Id_Ingredientes" />
+    </Key>
+    <Property Name="Id_recipe" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Id_Categoria" Type="int" Nullable="false" />
+    <Property Name="Preptime" Type="time" Precision="7" />
+    <Property Name="Cooktime" Type="time" Precision="7" />
+    <Property Name="ReadyIn" Type="time" Precision="7" />
+    <Property Name="Prep" Type="varchar" MaxLength="1000" Nullable="false" />
+    <Property Name="Id_Ingredientes" Type="int" Nullable="false" />
+    <Property Name="Imagen" Type="image" />
+    <Property Name="Calories" Type="float" />
+    <Property Name="Fat" Type="float" />
+    <Property Name="Carbs" Type="float" />
+    <Property Name="Protein" Type="float" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Uploaded">
+    <Key>
+      <PropertyRef Name="Id_Uprecipe" />
+    </Key>
+    <Property Name="Id_Uprecipe" Type="int" Nullable="false" />
+    <Property Name="Id_user" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id_user" />
+    </Key>
+    <Property Name="Id_user" Type="int" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Apellido" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Id_Favorites" Type="int" />
+    <Property Name="Id_Uprecipes" Type="int" />
+  </EntityType>
+  <Association Name="FK_Favorites_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Favorites" Type="Self.Favorites" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Favorites">
+        <PropertyRef Name="Id_User" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Ingredientes_Ingredientes">
+    <End Role="Ingredientes" Type="Self.Ingredientes" Multiplicity="1" />
+    <End Role="Ingredientes1" Type="Self.Ingredientes" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Ingredientes">
+        <PropertyRef Name="Id_Ingredients" />
+      </Principal>
+      <Dependent Role="Ingredientes1">
+        <PropertyRef Name="Id_Ingredients" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Uploaded_User">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Uploaded" Type="Self.Uploaded" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id_user" />
+      </Principal>
+      <Dependent Role="Uploaded">
+        <PropertyRef Name="Id_user" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="RecetasModelStoreContainer">
+    <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Favorites" EntityType="Self.Favorites" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ingredientes" EntityType="Self.Ingredientes" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Uploaded" EntityType="Self.Uploaded" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Recipess" EntityType="Self.Recipess" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+[Recipess].[Id_recipe] AS [Id_recipe], 
+[Recipess].[Nombre] AS [Nombre], 
+[Recipess].[Descripcion] AS [Descripcion], 
+[Recipess].[Id_Categoria] AS [Id_Categoria], 
+[Recipess].[Preptime] AS [Preptime], 
+[Recipess].[Cooktime] AS [Cooktime], 
+[Recipess].[ReadyIn] AS [ReadyIn], 
+[Recipess].[Prep] AS [Prep], 
+[Recipess].[Id_Ingredientes] AS [Id_Ingredientes], 
+[Recipess].[Imagen] AS [Imagen], 
+[Recipess].[Calories] AS [Calories], 
+[Recipess].[Fat] AS [Fat], 
+[Recipess].[Carbs] AS [Carbs], 
+[Recipess].[Protein] AS [Protein]
+FROM [dbo].[Recipess] AS [Recipess]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Favorites_User" Association="Self.FK_Favorites_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Favorites" EntitySet="Favorites" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Ingredientes_Ingredientes" Association="Self.FK_Ingredientes_Ingredientes">
+      <End Role="Ingredientes" EntitySet="Ingredientes" />
+      <End Role="Ingredientes1" EntitySet="Ingredientes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Uploaded_User" Association="Self.FK_Uploaded_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Uploaded" EntitySet="Uploaded" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
