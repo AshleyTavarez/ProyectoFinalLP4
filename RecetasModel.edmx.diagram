@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="aef0bfc43ed54bf08711b2b4a8659dad" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="RecetasModel.sysdiagram" Width="1.5" PointX="5.875" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RecetasModel.Category" Width="1.5" PointX="8.375" PointY="4.625" />
+        <EntityTypeShape EntityType="RecetasModel.Favorite" Width="1.5" PointX="12.875" PointY="7.875" />
+        <EntityTypeShape EntityType="RecetasModel.Ingrediente" Width="1.5" PointX="12.875" PointY="4.125" />
+        <EntityTypeShape EntityType="RecetasModel.Recipe" Width="1.5" PointX="10.625" PointY="3.25" />
+        <EntityTypeShape EntityType="RecetasModel.Usuario" Width="1.5" PointX="12.875" PointY="1.25" />
+        <AssociationConnector Association="RecetasModel.FK_Recipes_Category" />
+        <AssociationConnector Association="RecetasModel.FK_Favorites_Recipes" />
+        <AssociationConnector Association="RecetasModel.FK__Ingredien__Id_re__48CFD27E" />
+        <AssociationConnector Association="RecetasModel.FK_Recipes_Ingredientes" />
+        <AssociationConnector Association="RecetasModel.Uploaded" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
